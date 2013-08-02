@@ -1,0 +1,95 @@
+//2013/08/01 ver1.1
+
+// step-1
+// create table
+
+CREATE TABLE Deal_Total
+{
+	Order_No		INTEGER NOT NULL PRIMARY KEY,
+	Order_Date		DATE,
+	Customer_Code	INTEGER,
+	Order_TotalCost		INTEGER,
+	
+	FOREIGN KEY (Order_Date，Customer_Code) REFERENCES Deal_Each(Order_Date，Customer_Code)
+};
+
+CREATE TABLE Deal_Each
+{
+	Order_Date		DATE NOT NULL,
+	Customer_Code	INTEGER NOY NULL,
+	Product_Code	INTEGER,
+	Order_Amount	INTEGER,
+	
+	PRIMARY KEY(Order_Date，Customer_Code),
+	FOREIGN KEY Customer_Code REFERENCES Customer(cudtomer_Code),
+	FOREIGN KEY Product_Code REFERENCES Product(Product_code),
+}
+
+CREATE TABLE Customer
+{
+	Customer_Code	INTEGER NOT NULL PRIMARY KEY,
+	Customer_Name	CHAR(100),
+};
+
+CREATE TABLE Product
+{
+	Product_Code		INTEGER NOT NULL PRIMARY KEY,
+	Product_Name		CHAR(100),
+	Product_Cost		INTEGER
+};
+
+
+//step2
+// select,count,さぶくえり
+SELECT COUNT(*) FROM Deal_Each 
+	WHERE Product_Code = 
+	( SELECT Product_Code FROM Product
+	WHERE Pruduct_Name = "S");
+
+
+//step3
+// select
+SELECT Order_TotalCost From Deal_Total WHERE Order_No = 1;
+
+// もしかして:SUM使えばDeal_Totalテーブルっていらないのでは．．
+
+
+//step4
+// insert
+// 新しい製品コードの生成どうやるんだろう？
+// SELECT+COUNTで列数取得して＋１とかで良いのだろうか？
+
+INSERT INTO Product (Product_Code, Product_Name, Product_Cost)
+	VALUES (SELECT COUNT(*) FROM Product + 1, "W", 1500);
+	
+INSERT INTO Customer (Customer_Code, Customer_Name)
+	VALUES (SELECT COUNT(*) FROM Customer + 1, "z本舗");
+
+INSERT INTO Deal_Each (Order_Date, Customer_Code, Product_Code, Order_Amount)
+	VALUES (
+	2013-10-03,
+	SELECT Customer_Code From Customer WHERE Customer_Name = "z本舗",
+	SELECT Product_Code From Product WHERE Product_Name = "S",
+	5);
+	
+INSERT INTO Deal_Each (Order_Date, Customer_Code, Product_Code, Order_Amount)
+	VALUES (
+	2013-10-03,
+	SELECT Customer_Code From Customer WHERE Customer_Name = "z本舗",
+	SELECT Product_Code From Product WHERE Product_Name = "T",
+	4);
+
+INSERT INTO Deal_Each (Order_Date, Customer_Code, Product_Code, Order_Amount)
+	VALUES (
+	2013-10-03,
+	SELECT Customer_Code From Customer WHERE Customer_Name = "z本舗",
+	SELECT Product_Code From Product WHERE Product_Name = "W",
+	7);
+
+INSERT INTO Deal_Total (Order_No, Order_Date, Customer_Code, Order_TotalCost)
+	VALUES(
+	5,
+	2013-10-03,
+	SELECT Customer_Code From Customer WHERE Customer_Name = "z本舗",
+	39300
+	)

@@ -1,0 +1,42 @@
+// step-1
+
+//よくわからないのでとりあえず提出．．
+//・NOT NULL の使いどころがわかりません．．
+//・取引先，商品名の文字数はどう設計するのか？
+//・そもそも日本語でよいのか？
+
+CREATE TABLE 受注票
+{
+	受注No			INTEGER PRIMARY KEY,
+	受注日			DATE,
+	取引先コード	INTEGER,
+	合計金額		INTEGER,
+	
+	FOREIGN KEY (受注日，取引先コード) REFERENCES 個別取引表(受注日，取引先コード)
+};
+
+CREATE TABLE 個別取引表
+{
+	受注日			DATE,
+	取引先コード	INTEGER,
+	商品コード		INTEGER,
+	取引数			INTEGER,
+	
+	PRIMARY KEY(受注日，取引先コード),
+	FOREIGN KEY 取引先コード REFERENCES 取引先表(取引先コード),
+	FOREIGN KEY 商品コード REFERENCES 商品表(商品コード),
+}
+
+CREATE TABLE 取引先表
+{
+	取引先コード	INTEGER PRIMARY KEY,
+	取引先名		CHAR(10),
+};
+
+CREATE TABLE 商品表
+{
+	商品コード		INTEGER PRIMARY KEY,
+	商品名			CHAR(10),
+	商品単価		INTEGER
+};
+
