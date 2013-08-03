@@ -1,0 +1,9 @@
+MSYS-1.0.12 Build:2011-07-20 17:52
+Exception: STATUS_ACCESS_VIOLATION at eip=47504A2E
+eax=00000001 ebx=0028F84C ecx=7610A4E8 edx=008D0178 esi=0028FC4C edi=0028F84C
+ebp=347E9EBE esp=0028F6C4 program=C:\Users\masa\AppData\Local\Atlassian\SourceTree\git_local\bin\sh.exe
+cs=0023 ds=002B es=002B fs=0053 gs=002B ss=002B
+Stack trace:
+Frame     Function  Args
+ 292440 [main] sh 5184 handle_exceptions: Exception: STATUS_ACCESS_VIOLATION
+ 352368 [main] sh 5184 handle_exceptions: Error while dumping state (probably corrupted stack)
