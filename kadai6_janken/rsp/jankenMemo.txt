@@ -42,3 +42,19 @@ cf.yoppaのwebdesign
 
 ＊なにもいろいろ頑張んなくても，それっぽいプラグイン使えばいいんじゃねって話
 使い方はとてもしんぷる
+
+//課題２
+・文字列の追加
+-$(target).append(str)
+-改行を付与したい時は？
+-\nはダメ
+-html側で解釈できるようにする．
+-<br/>
+
+
+・fadOutでnoneになっちゃう問題
+-fixedBox{height:20px}
+-<div id="fixedBox"></div>で囲めばおｋ！
+
+・時間おくれ
+setTimeout(function(){},time)

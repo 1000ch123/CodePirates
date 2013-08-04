@@ -1,4 +1,4 @@
-"use strict";
+"use strict";//厳格モード．曖昧実装許されない．ちょっと早い．（らしい）
 
 $(function(){
   //定数
@@ -7,6 +7,11 @@ $(function(){
     SCISSORS : 1,
     PAPER : 2,
   };
+  var HAND_NAME ={
+    0:"ぐー ",
+    1:"ちょき",
+    2:"ぱー ",
+  }
   var RSP_RESULT_CODE = {
     DRAW : 0,
     WIN : 1,
@@ -18,6 +23,17 @@ $(function(){
   var fadeTime_hand = 300;
   var delayTime_hand = 0;
   
+  //戦績状態記録変数
+  var winCount = 0;
+  var loseCount = 0;
+  var drawCount = 0;
+  
+  //enemy用状態記録変数
+  //adolf
+  
+  //clerk
+  
+  //Dudley
   
   //読み込み時の処理
     $(".rsp-btn").toggle(); //じゃんけんの手を非表示にする
@@ -58,10 +74,8 @@ $(function(){
       //$("#myrspimg").attr("src", "img/paper.png");
       hand = HAND_TYPE.PAPER;
     }
-    $("#myrspimg").fadeOut(fadeTime_hand*0);
-    $("#myrspimg").attr("src", imgPath);
-    $("#myrspimg").delay(delayTime_hand);
-    $("#myrspimg").fadeIn(fadeTime_hand);
+    $("#myrspimg").fadeOut(fadeTime_hand*0).delay(delayTime_hand).attr("src", imgPath).fadeIn(fadeTime_hand);
+    
     return hand;
   }
   
@@ -79,28 +93,42 @@ $(function(){
       imgPath = "img/paper.png";
       //$("#bobrspimg").attr("src", "img/paper.png");
     }
-    //メソッドチェーンだと．さきに要素変更が解釈されているみたい・
-    $("#bobrspimg").fadeOut(fadeTime_hand*0);
-    $("#bobrspimg").delay(delayTime_hand)
-    $("#bobrspimg").attr("src", imgPath);
-    $("#bobrspimg").fadeIn(fadeTime_hand);
+    $("#bobrspimg").fadeOut(fadeTime_hand*0).delay(delayTime_hand).attr("src", imgPath).fadeIn(fadeTime_hand);
     return hand;
   }
   
-  //勝敗判定．
-  //in:myHand,otherHand
-  //out:result
+  /*
+  勝敗判定．
+  in:myHand,otherHand
+  out:result
+  */
   function judge(myHand, otherHand) {
-    var result;
+    var result; //judgeの結果格納．returnする．
+    var resultStr; //戦績更新用
+    
+    //勝敗判定
     if (myHand === otherHand) {
       result = RSP_RESULT_CODE.DRAW;
+      drawCount++;
+      resultStr = "draw";
     } else if ((myHand === HAND_TYPE.ROCK && otherHand === HAND_TYPE.SCISSORS)
         || (myHand === HAND_TYPE.SCISSORS && otherHand === HAND_TYPE.PAPER)
         || (myHand === HAND_TYPE.PAPER && otherHand === HAND_TYPE.ROCK)) {
       result = RSP_RESULT_CODE.WIN;
+      winCount++;
+      resultStr = "win";
     }else {
       result = RSP_RESULT_CODE.LOSE;
+      loseCount++;
+      resultStr = "lose";
     }
+    
+    //戦績更新
+    setTimeout(function(){
+     $("#history").append(HAND_NAME[myHand]+"："+HAND_NAME[otherHand]+"："+
+       resultStr+"<br/>");
+     $("#summary").text("win:" + winCount + " lose:" + loseCount + " draw:" + drawCount);
+    },fadeTime_hand*2);
     return result;
   }
   
@@ -111,16 +139,18 @@ $(function(){
   */
   function showResult(result) {
     var resultText;
+    
     if (result === RSP_RESULT_CODE.DRAW) {
-      $("#result").text("").delay(fadeTime_hand*2).text("draw.");
+      $("#result").text("draw.");
       resultText = "ひきわけです．";
     } else if (result === RSP_RESULT_CODE.WIN) {
-      $("#result").text("").delay(fadeTime_hand*2).text("You win!");
+      $("#result").text("You win!");
       resultText = "あなたの勝ちです！";
     } else {
-      $("#result").text("").delay(fadeTime_hand*2).text("You lose!");
+      $("#result").text("You lose!");
       resultText = "あなたの負けです．．";
     }
+    $("#result").fadeOut(0).delay(fadeTime_hand).fadeIn(fadeTime_hand);
     //alert(resultText);
   }
   
@@ -128,8 +158,12 @@ $(function(){
   assignmenDocs表示切替
   */
   $("#docsOnOff").click(function(){
-     //alert("pushed");
      $("#assignmentDocs").toggle();
+     if($(this).text()=="close"){
+       $(this).text("open");
+     }else{
+       $(this).text("close");
+     }
     }
   )
   
@@ -140,6 +174,6 @@ $(function(){
     alert("れっつにゃー");
     $(".start-btn").toggle();
     $(".rsp-btn").toggle();
-  }
+    }
   )
 });

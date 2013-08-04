@@ -13,6 +13,9 @@
  .sidebar-nav {
   padding: 9px 0;
  }
+ .fadeBox{
+  height: 30px;
+ }
 </style>
 <link href="css/bootstrap-responsive.css" rel="stylesheet">
 
@@ -58,7 +61,15 @@
             </div>
             <hr />
             <div class="row-fluid">
-                <p id="result" class="text-center">Who will win?</p>
+                <div class="fadeBox">
+                  <p id="result" class="text-center">Who will win?</p>
+                </div>
+                <br/>
+                <p class="text-center">Summary</p>
+                <p id="summary" class="text-center">0 win 0 lose 0 draw</p>
+                <p class="text-center">History</p>
+                <p class="text-center"></p>
+                <p id="history" class="text-center">あなた：あいて：結果<br/></p>
             </div>
         </div>
         <div class="span7">
