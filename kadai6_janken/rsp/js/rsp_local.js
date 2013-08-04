@@ -17,7 +17,12 @@ $(function(){
     WIN : 1,
     LOSE : 2,
   };
-  
+  var ENEMY_LIST ={
+    BOB:0,
+    ADOLF:1,
+    CLERK:2,
+    DUDLEY:3
+  }
 
   //effect用変数
   var fadeTime_hand = 300;
@@ -29,6 +34,8 @@ $(function(){
   var drawCount = 0;
   
   //enemy用状態記録変数
+  //現在の敵
+  var tmpEnemy = ENEMY_LIST.BOB;
   //adolf
   
   //clerk
@@ -37,13 +44,15 @@ $(function(){
   
   //読み込み時の処理
     $(".rsp-btn").toggle(); //じゃんけんの手を非表示にする
-  
+    $(".enemy-btn").toggle();
+    $("#enemyList").toggle();
+    
   //ボタンが押されたら
   $(".rsp-btn").click(function(){
     //勝敗判定judge(userHand,enemyHand)
     var result = judge(
       myHand($(this).attr("id")),
-      bobHand()
+      enemyHand(tmpEnemy)//bobHand()
       );
       
     //結果表示
@@ -95,6 +104,19 @@ $(function(){
     }
     $("#bobrspimg").fadeOut(fadeTime_hand*0).delay(delayTime_hand).attr("src", imgPath).fadeIn(fadeTime_hand);
     return hand;
+  }
+  
+  function enemyHand(tmpEnemy){
+    var ehand;
+    switch (tmpEnemy){
+      case ENEMY_LIST.BOB:
+        ehand = bobHand();
+        break;
+      default:
+        ehand = bobHand();
+        break;
+    }
+    return ehand;
   }
   
   /*
@@ -174,6 +196,15 @@ $(function(){
     alert("れっつにゃー");
     $(".start-btn").toggle();
     $(".rsp-btn").toggle();
+    //$(".enemy-btn").toggle();
+    $("#enemyList").toggle();
+    }
+  )
+  
+  /*
+  enemyボタン
+  */
+  $(".enemy-btn").click(function(){
     }
   )
 });
