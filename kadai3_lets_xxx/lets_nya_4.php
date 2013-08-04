@@ -5,6 +5,14 @@ GETリクエストの処理 ver1.3
 エンティティ変換．
 -->
 
+<?
+ini_set('display_errors', '1');
+error_reporting(-1);
+if (array_key_exists("name", $_GET)) {
+    $message = htmlspecialchars($_GET["name"], ENT_QUOTES,"UTF-8");
+}
+?>
+
 <!DOCTYPE html>
 <html>
 <head><meta charset="UTF-8">
@@ -12,12 +20,9 @@ GETリクエストの処理 ver1.3
 <body>
 
 <?
-ini_set('display_errors', '1');
-error_reporting(-1);
+
 echo "Let's＼(・ω・)／";
-if (array_key_exists("name", $_GET)) {
-    echo htmlspecialchars($_GET["name"], ENT_QUOTES,"UTF-8");
-}
+
 ?>
 
 </body></html>

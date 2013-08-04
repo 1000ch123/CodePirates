@@ -1,0 +1,95 @@
+//2013/08/04 ver1.2
+
+// step-1
+// create table
+
+CREATE TABLE Deal_Each
+{
+	data_no			INTEGER NOT NULL AUTO_INCREMENT,
+	order_no		INTEGER NOT NULL,
+	order_date		DATE NOT NULL,
+	customer_code	INTEGER NOT NULL,
+	product_code	INTEGER NOT NULL,
+	order_amount	INTEGER,
+	
+	PRIMARY KEY (data_no),
+	FOREIGN KEY customer_code REFERENCES Customer(customer_code),
+	FOREIGN KEY product_code REFERENCES Product(product_code)
+}
+
+CREATE TABLE Customer
+{
+	customer_code	INTEGER NOT NULL AUTO_INCREMENT,
+	customer_name	CHAR(100),
+	
+	PRIMARY KEY (customer_code)
+};
+
+CREATE TABLE Product
+{
+	product_code		INTEGER NOT NULL AUTO_INCREMENT,
+	product_name		CHAR(100),
+	product_cost		INTEGER,
+	PRIMARY KEY (product_code)
+};
+
+// order_noからorder_dateは一意に決まる気がする．
+// でも分ける有用性が見いだせないのでとりあえずメインテーブルにそのまま格納．
+
+
+//step2
+//Q:商品Sの受注数を求めよ
+
+SELECT SUM(order_amount) FROM Deal_Each WHERE product_code = 
+	(SELECT product_code FROM Product WHERE product_name = "S");
+
+// Productテーブル：商品名から商品コード取得
+// Deal_Eachテーブル:商品コードからから発注個数取得
+// 発注数をsum．
+
+
+//step3
+// 受注No.1の合計金額を求めよ
+
+SELECT SUM(order_amount * 
+	(SELECT product_cost FROM Product WHERE product_code =
+		(SELECT product_code FROM Deal_Each WHERE order_no = 1))) 
+FROM Deal_Each  WHERE order_no = 1;
+
+// Deal_Eachテーブル：受注番号から受注数と商品コード取得．
+// Productデーブル：商品コードから値段取得．
+// 受注数*値段をsumする．
+// 商品コード取得部が重複して気持ち悪い．
+
+
+//step4
+// insert.
+
+INSERT INTO Product (product_name, product_cost)
+	VALUES ("W", 1500);
+	
+INSERT INTO Customer (customer_name)
+	VALUES ("z本舗");
+
+INSERT INTO Deal_Each (order_no, order_date, customer_code, product_code, order_amount)
+	VALUES (
+	5,
+	2013-10-03,
+	SELECT customer_code From Customer WHERE customer_name = "z本舗",
+	SELECT product_code From Product WHERE product_name = "S",
+	5),(
+	5,
+	2013-10-03,
+	SELECT customer_code From Customer WHERE customer_name = "z本舗",
+	SELECT product_code From Product WHERE product_name = "T",
+	4),	(
+	5,
+	2013-10-03,
+	SELECT customer_code From Customer WHERE customer_name = "z本舗",
+	SELECT product_code From Product WHERE product_name = "W",
+	7
+	);
+
+// 新しい取引先．商品のデータを記録
+// 実際の取引を記録．
+// 同種データなら(),(),..で複数追加できるんですね
