@@ -12,12 +12,15 @@ $(function(){
     WIN : 1,
     LOSE : 2,
   };
-  $(".rsp-btn").toggle();
+  
 
   //effect用変数
   var fadeTime_hand = 300;
   var delayTime_hand = 0;
   
+  
+  //読み込み時の処理
+    $(".rsp-btn").toggle(); //じゃんけんの手を非表示にする
   
   //ボタンが押されたら
   $(".rsp-btn").click(function(){
@@ -55,7 +58,7 @@ $(function(){
       //$("#myrspimg").attr("src", "img/paper.png");
       hand = HAND_TYPE.PAPER;
     }
-    //$("#myrspimg").fadeOut(fadeTime_hand);
+    $("#myrspimg").fadeOut(fadeTime_hand*0);
     $("#myrspimg").attr("src", imgPath);
     $("#myrspimg").delay(delayTime_hand);
     $("#myrspimg").fadeIn(fadeTime_hand);
@@ -77,7 +80,7 @@ $(function(){
       //$("#bobrspimg").attr("src", "img/paper.png");
     }
     //メソッドチェーンだと．さきに要素変更が解釈されているみたい・
-    $("#bobrspimg").fadeOut(fadeTime_hand);
+    $("#bobrspimg").fadeOut(fadeTime_hand*0);
     $("#bobrspimg").delay(delayTime_hand)
     $("#bobrspimg").attr("src", imgPath);
     $("#bobrspimg").fadeIn(fadeTime_hand);
@@ -133,8 +136,9 @@ $(function(){
   /*
   startボタン
   */
-  $(".start").click(function(){
+  $(".start-btn").click(function(){
     alert("れっつにゃー");
+    $(".start-btn").toggle();
     $(".rsp-btn").toggle();
   }
   )

@@ -13,6 +13,8 @@ $(~~)
 -しかし，非表示の時は空間をつめるみたい．
 -"何もない空間"を残すには？
 
+-cssではvisivilityをhiddenに設定すると空間はそのまま．
+
 ＊要素のアニメーション
 cf.yoppaのwebdesign
 -$(target).animate(params,duration)
@@ -28,9 +30,15 @@ cf.yoppaのwebdesign
 ＊どんなエフェクトにしてみる？
 ->画像に対するスタイルにどんなものがあるか？
 -fade in / out
+ fadeIn(tine),fadeOut(time)
 -zoom
+ 文字だったらfont-sizeとか？
 -move
+ 
 -rotate
 
 （別画像用意）
 [じゃーんけーん]みたいなでっかい画像用意してごまかすｗ
+
+＊なにもいろいろ頑張んなくても，それっぽいプラグイン使えばいいんじゃねって話
+使い方はとてもしんぷる
