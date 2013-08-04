@@ -39,6 +39,8 @@
         <div class="row-fluid">
         <div class="span5">
             <div class="row-fluid text-center">
+                <!--スタイル指定：btn, rsp-btn(<-jsでの関数呼び出し用).-->
+                <button type="button" class="btn start" id="start">スタート</button>
                 <button type="button" class="btn rsp-btn" id="rock">グー</button>
                 <button type="button" class="btn rsp-btn" id="scissors">チョキ</button>
                 <button type="button" class="btn rsp-btn" id="paper">パー</button>
@@ -60,7 +62,9 @@
             </div>
         </div>
         <div class="span7">
-            <div class="well sidebar-nav">
+            <!--assignmentDocs表示切替-->
+            <button type="button" class="btn" id="docsOnOff">close</button>
+            <div class="well sidebar-nav" id="assignmentDocs">
                 <ul class="nav nav-list">
                     <li class="nav-header">じゃんけんゲーム</li>
                     <li class="active"><a href="rsp_local.html">ローカル版</a></li>
