@@ -37,7 +37,7 @@ $(function(){
   //現在の敵
   var tmpEnemy = ENEMY_LIST.BOB;
   //adolf
-  
+  var adolfFirst = true;
   //clerk
   
   //Dudley
@@ -106,6 +106,49 @@ $(function(){
     return hand;
   }
   
+  //Enemy2.adolf.最初にパー多い
+  function adolfHand(){
+    var hand;
+    if(adolfFirst){
+      hand = Math.floor(Math.random() * 5);
+      adolfFirst = false;
+    }else{
+      hand = Math.floor(Math.random() * 3);
+    }
+    if (hand === HAND_TYPE.ROCK) {
+      imgPath = "img/rock.png";
+    } else if (hand === HAND_TYPE.SCISSORS) {
+      imgPath = "img/scissors.png";
+    } else {
+      imgPath = "img/paper.png";
+      hand = HAND_TYPE.PAPER;
+    }
+    return hand;
+  }
+  
+  //Enemy3.clerk.チョキが多い
+  function clerkHand(){
+    var hand;
+    hand = Math.floor(Math.random() * 5);
+    if (hand === HAND_TYPE.ROCK) {
+      imgPath = "img/rock.png";
+    } else if (hand === HAND_TYPE.SCISSORS) {
+      imgPath = "img/scissors.png";
+    } else if (hand === HAND_TYPE.PAPER) {
+      imgPath = "img/paper.png";
+    } else {
+      imgPath = "img/scissors.png";
+      hand = HAND_TYPE_SCISSORS;
+    }
+    return hand;
+  }
+  
+  //Enemy4.dudley.自分の手の履歴保存．同じ手が連続するとそれに勝つ手を出す．（確定？）
+  
+  /*
+    敵の設定．引数tmpEnemyによるswitch文．
+    （enemyHand = enemyHandFunc のように関数オブジェクト使いたいのにうまくいかね）
+  */
   function enemyHand(tmpEnemy){
     var ehand;
     switch (tmpEnemy){
