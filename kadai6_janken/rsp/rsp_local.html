@@ -47,7 +47,8 @@
         <div class="span5">
             <div class="row-fluid text-center">
                 <!--スタイル指定：btn, rsp-btn(<-jsでの関数呼び出し用).-->
-                <button type="button" class="btn start-btn" id="start">スタート</button>
+                <button type="button" class="btn start-btn" id="start">初めから</button>
+                <button type="button" class="btn" id="dataLoad">続きから</button>
                 <button type="button" class="btn rsp-btn" id="rock">グー</button>
                 <button type="button" class="btn rsp-btn" id="scissors">チョキ</button>
                 <button type="button" class="btn rsp-btn" id="paper">パー</button>
@@ -64,6 +65,8 @@
                 <button type="button" class="btn enemy-btn" id="Adolf">アドルフ</button>
                 <button type="button" class="btn enemy-btn" id="Clerk">クラーク</button>
                 <button type="button" class="btn enemy-btn" id="Dudley">ダドリー</button>
+                
+                <button type="button" class="btn" id="dataSave">戦績記録</button>
             </div>
             <hr />
             <div class="row-fluid">
@@ -72,9 +75,9 @@
                     <img id="myrspimg" src="img/rock.png" />
                 </div>
                 <div class="span6 text-center">
-                    <p>ボブ</p>
+                    <p id="enemy-name">ボブ</p>
                     
-                    <img id="bobrspimg" src="img/scissors.png" />
+                    <img id="enemyrspimg" src="img/scissors.png" />
                 </div>
             </div>
             <hr />

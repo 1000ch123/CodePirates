@@ -11,7 +11,7 @@ $(function(){
     0:"ぐー ",
     1:"ちょき",
     2:"ぱー ",
-  }
+  };
   var RSP_RESULT_CODE = {
     DRAW : 0,
     WIN : 1,
@@ -22,10 +22,16 @@ $(function(){
     ADOLF:1,
     CLERK:2,
     DUDLEY:3
-  }
+  };
+  var ENEMY_NAME = {
+    0:"ボブ",
+    1:"アドルフ",
+    2:"クラーク",
+    3:"ダドリー"
+  };
 
   //effect用変数
-  var fadeTime_hand = 300;
+  var fadeTimeHand = 300;
   var delayTime_hand = 0;
   
   //戦績状態記録変数
@@ -38,26 +44,28 @@ $(function(){
   var tmpEnemy = ENEMY_LIST.BOB;
   //adolf
   var adolfFirst = true;
-  //clerk
-  
   //Dudley
+  var dudleyMemoryPre = -1;
+  var dudleyMemoryPrePre = -1;
   
   //読み込み時の処理
-    $(".rsp-btn").toggle(); //じゃんけんの手を非表示にする
-    $(".enemy-btn").toggle();
-    $("#enemyList").toggle();
+  $(".rsp-btn").toggle(); //じゃんけんの手を非表示にする
+  $(".enemy-btn").toggle();
+  $("#enemyList").toggle();
+  $("dataSave").toggle();
+  
     
-  //ボタンが押されたら
+  //手のボタンが押されたら
   $(".rsp-btn").click(function(){
     //勝敗判定judge(userHand,enemyHand)
     var result = judge(
       myHand($(this).attr("id")),
-      enemyHand(tmpEnemy)//bobHand()
-      );
-      
+      enemyHand(tmpEnemy)
+    );
     //結果表示
     showResult(result);
   });
+  
   
   //UserHand.handTypeはhtmlでidに指定した"rock","scissors","paper".
   function myHand(handType) {
@@ -72,21 +80,22 @@ $(function(){
     var imgPath;
     if (handType == "rock") {
       imgPath = "img/rock.png";
-      //$("#myrspimg").fadeOut(500).attr("src", "img/rock.png").fadeIn(500);
       hand = HAND_TYPE.ROCK;
     } else if (handType == "scissors") {
       imgPath = "img/scissors.png";
-      //$("#myrspimg").attr("src", "img/scissors.png");
       hand = HAND_TYPE.SCISSORS;
     } else {
       imgPath = "img/paper.png";
-      //$("#myrspimg").attr("src", "img/paper.png");
       hand = HAND_TYPE.PAPER;
     }
-    $("#myrspimg").fadeOut(fadeTime_hand*0).delay(delayTime_hand).attr("src", imgPath).fadeIn(fadeTime_hand);
+    $("#myrspimg").fadeOut(fadeTimeHand*0).delay(delayTime_hand).attr("src", imgPath).fadeIn(fadeTimeHand);
     
     return hand;
   }
+  
+  /*
+    EnemyHand
+  */
   
   //Enemy1.bob.完全ランダム
   function bobHand() {
@@ -94,21 +103,19 @@ $(function(){
     var imgPath;
     if (hand === HAND_TYPE.ROCK) {
       imgPath = "img/rock.png";
-      //$("#bobrspimg").attr("src", "img/rock.png");
     } else if (hand === HAND_TYPE.SCISSORS) {
       imgPath = "img/scissors.png";
-      //$("#bobrspimg").attr("src", "img/scissors.png");
     } else {
       imgPath = "img/paper.png";
-      //$("#bobrspimg").attr("src", "img/paper.png");
     }
-    $("#bobrspimg").fadeOut(fadeTime_hand*0).delay(delayTime_hand).attr("src", imgPath).fadeIn(fadeTime_hand);
+    $("#enemyrspimg").fadeOut(fadeTimeHand*0).delay(delayTime_hand).attr("src", imgPath).fadeIn(fadeTimeHand);
     return hand;
   }
   
   //Enemy2.adolf.最初にパー多い
   function adolfHand(){
     var hand;
+    var imgPath;
     if(adolfFirst){
       hand = Math.floor(Math.random() * 5);
       adolfFirst = false;
@@ -123,13 +130,38 @@ $(function(){
       imgPath = "img/paper.png";
       hand = HAND_TYPE.PAPER;
     }
+    $("#enemyrspimg").fadeOut(fadeTimeHand*0).delay(delayTime_hand).attr("src", imgPath).fadeIn(fadeTimeHand);
     return hand;
   }
   
   //Enemy3.clerk.チョキが多い
   function clerkHand(){
     var hand;
+    var imgPath;
     hand = Math.floor(Math.random() * 5);
+    if (hand === HAND_TYPE.ROCK) {
+      imgPath = "img/rock.png";
+    } else if (hand === HAND_TYPE.SCISSORS) {
+      imgPath = "img/scissors.png";
+    } else if (hand === HAND_TYPE.PAPER) {
+      imgPath = "img/paper.png";
+    } else {
+      imgPath = "img/scissors.png";
+      hand = HAND_TYPE.SCISSORS;
+    }
+    $("#enemyrspimg").fadeOut(fadeTimeHand*0).delay(delayTime_hand).attr("src", imgPath).fadeIn(fadeTimeHand);
+    return hand;
+  }
+  
+  //Enemy4.dudley.ユーザの手の履歴保存．同じ手が連続するとそれに勝つ手を出す．（確定？）
+  function dudleyHand(){
+    var hand;
+    var imgPath;
+    if ( dudleyMemoryPre == dudleyMemoryPrePre){
+      hand = (dudleyMemoryPre + 2) % 3;
+    } else {
+      hand = Math.floor(Math.random() * 3);
+    }
     if (hand === HAND_TYPE.ROCK) {
       imgPath = "img/rock.png";
     } else if (hand === HAND_TYPE.SCISSORS) {
@@ -140,11 +172,9 @@ $(function(){
       imgPath = "img/scissors.png";
       hand = HAND_TYPE_SCISSORS;
     }
+    $("#enemyrspimg").fadeOut(fadeTimeHand*0).delay(delayTime_hand).attr("src", imgPath).fadeIn(fadeTimeHand);
     return hand;
   }
-  
-  //Enemy4.dudley.自分の手の履歴保存．同じ手が連続するとそれに勝つ手を出す．（確定？）
-  
   /*
     敵の設定．引数tmpEnemyによるswitch文．
     （enemyHand = enemyHandFunc のように関数オブジェクト使いたいのにうまくいかね）
@@ -154,6 +184,15 @@ $(function(){
     switch (tmpEnemy){
       case ENEMY_LIST.BOB:
         ehand = bobHand();
+        break;
+      case ENEMY_LIST.ADOLF:
+        ehand = adolfHand();
+        break;
+      case ENEMY_LIST.CLERK:
+        ehand = clerkHand();
+        break;
+      case ENEMY_LIST.DUDLEY:
+        ehand = dudleyHand();
         break;
       default:
         ehand = bobHand();
@@ -170,6 +209,10 @@ $(function(){
   function judge(myHand, otherHand) {
     var result; //judgeの結果格納．returnする．
     var resultStr; //戦績更新用
+    
+    //dudley用結果記録
+    dudleyMemoryPrePre = dudleyMemoryPre;
+    dudleyMemoryPre = myHand;
     
     //勝敗判定
     if (myHand === otherHand) {
@@ -189,11 +232,11 @@ $(function(){
     }
     
     //戦績更新
-    setTimeout(function(){
+    setTimeout( function(){
      $("#history").append(HAND_NAME[myHand]+"："+HAND_NAME[otherHand]+"："+
        resultStr+"<br/>");
      $("#summary").text("win:" + winCount + " lose:" + loseCount + " draw:" + drawCount);
-    },fadeTime_hand*2);
+    },fadeTimeHand*2);
     return result;
   }
   
@@ -215,7 +258,7 @@ $(function(){
       $("#result").text("You lose!");
       resultText = "あなたの負けです．．";
     }
-    $("#result").fadeOut(0).delay(fadeTime_hand).fadeIn(fadeTime_hand);
+    $("#result").fadeOut(0).delay(fadeTimeHand).fadeIn(fadeTimeHand);
     //alert(resultText);
   }
   
@@ -224,7 +267,7 @@ $(function(){
   */
   $("#docsOnOff").click(function(){
      $("#assignmentDocs").toggle();
-     if($(this).text()=="close"){
+     if( $(this).text() == "close"){
        $(this).text("open");
      }else{
        $(this).text("close");
@@ -239,8 +282,9 @@ $(function(){
     alert("れっつにゃー");
     $(".start-btn").toggle();
     $(".rsp-btn").toggle();
-    //$(".enemy-btn").toggle();
-    $("#enemyList").toggle();
+    $(".enemy-btn").toggle();
+    //$("#enemyList").toggle();
+    $("dataSave").toggle();
     }
   )
   
@@ -248,6 +292,15 @@ $(function(){
   enemyボタン
   */
   $(".enemy-btn").click(function(){
+    var enemyName = $(this).attr("id");
+    var enemyNumList = {
+      "Bob":ENEMY_LIST.BOB,
+      "Adolf":ENEMY_LIST.ADOLF,
+      "Clerk":ENEMY_LIST.CLERK,
+      "Dudley":ENEMY_LIST.DUDLEY
+    };
+    tmpEnemy = enemyNumList[enemyName];
+    $("#enemy-name").text(ENEMY_NAME[tmpEnemy]);
     }
   )
 });
