@@ -49,17 +49,22 @@
                 <!--スタイル指定：btn, rsp-btn(<-jsでの関数呼び出し用).-->
                 <button type="button" class="btn start-btn" id="start">初めから</button>
                 <button type="button" class="btn" id="dataLoad">続きから</button>
+		<input  type="text"   id="passcode"></input>
                 <button type="button" class="btn rsp-btn" id="rock">グー</button>
                 <button type="button" class="btn rsp-btn" id="scissors">チョキ</button>
                 <button type="button" class="btn rsp-btn" id="paper">パー</button>
                 
-                <select name="enemy" id="enemyList" class="enemyList">
+		<div class="btn-group">
+                  
+		</div>
+		<select name="enemy" id="enemyList" class="enemyList">
                     <option value="bob">bob</option>
                     <option value="adolf">adolf</option>
                     <option value="clerk">clerk</option>
                     <option value="dudley">dudley</option>
                 </select>
-                
+               
+
                 <br/>
                 <button type="button" class="btn enemy-btn" id="Bob">ボブ</button>
                 <button type="button" class="btn enemy-btn" id="Adolf">アドルフ</button>
@@ -90,7 +95,8 @@
                 <p id="summary" class="text-center">0 win 0 lose 0 draw</p>
                 <p class="text-center">History</p>
                 <p class="text-center"></p>
-                <p id="history" class="text-center">あなた：あいて：結果<br/></p>
+		<p id="history_label" class="text-center">あなた：あいて：結果<br/></p>
+                <p id="history" class="text-center"></p>
             </div>
         </div>
         <div class="span7">
