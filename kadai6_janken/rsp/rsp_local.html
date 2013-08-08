@@ -1,155 +1,158 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-<meta charset="utf-8">
-<title>じゃんけんゲーム（ローカル版） | VOYAGE Tech Dojo</title>
-<meta name="description" content="">
-<link rel="stylesheet" href="css/bootstrap.css" type="text/css">
-<style type="text/css">
- body {
-  padding-top: 60px;
-  padding-bottom: 40px;
- }
- .sidebar-nav {
-  padding: 9px 0;
- }
- .fadeBox{
-  height: 30px;
- }
- .enemyList{
- padding-top: 3px;
-  width: 2cm;
- }
-</style>
-<link href="css/bootstrap-responsive.css" rel="stylesheet">
+  <head>
+    <meta charset="utf-8">
+    <title>じゃんけんゲーム（ローカル版） | VOYAGE Tech Dojo</title>
+    <meta name="description" content="">
+    <link rel="stylesheet" href="css/bootstrap.css" type="text/css">
+    <style type="text/css">
+      body {
+      padding-top: 60px;
+      padding-bottom: 40px;
+      }
+      .sidebar-nav {
+      padding: 9px 0;
+      }
+      .fadeBox{
+      height: 30px;
+      }
+      .enemyList{
+      padding-top: 3px;
+      width: 2cm;
+      }
+    </style>
+    <link href="css/bootstrap-responsive.css" rel="stylesheet">
 
-<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-<!--[if lt IE 9]>
- <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-<![endif]-->
-</head>
-<body>
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+  </head>
+  <body>
     <div class="navbar navbar-fixed-top">
-        <div class="navbar-inner">
-            <div class="container-fluid">
-                <a class="brand" href="#">VOYAGE Tech Dojo</a>
-            </div>
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="brand" href="#">VOYAGE Tech Dojo</a>
         </div>
+      </div>
     </div>
     <div class="container-fluid">
-        <div class="row-fluid">
-            <div class="content-header">
-                <h1>じゃんけんゲーム（ローカル版）</h1>
-            </div>
+      <div class="row-fluid">
+        <div class="content-header">
+          <h1>じゃんけんゲーム（ローカル版）</h1>
         </div>
-            <hr />
-        <div class="row-fluid">
+      </div>
+      <hr />
+      <div class="row-fluid">
         <div class="span5">
-            <div class="row-fluid text-center">
-                <!--スタイル指定：btn, rsp-btn(<-jsでの関数呼び出し用).-->
-                <button type="button" class="btn start-btn" id="start">はじめから</button>
-                <button type="button" class="btn" id="dataLoad">つづきから</button>
-		<input  type="text"   id="passcode"></input>
-                <button type="button" class="btn rsp-btn" id="rock">グー</button>
-                <button type="button" class="btn rsp-btn" id="scissors">チョキ</button>
-                <button type="button" class="btn rsp-btn" id="paper">パー</button>
-                
-		<div class="btn-group">
-                
-		</div>
-		
-		<select name="enemy" id="enemyList" class="enemyList">
-                    <option value="bob">bob</option>
-                    <option value="adolf">adolf</option>
-                    <option value="clerk">clerk</option>
-                    <option value="dudley">dudley</option>
-                </select>
-               
+          <div class="row-fluid text-center">
+            <!--スタイル指定：btn, rsp-btn(<-jsでの関数呼び出し用).-->
+            <button type="button" class="btn start-btn" id="start">はじめから</button>
+            <button type="button" class="btn" id="dataLoad">つづきから</button>
+		        <input  type="text"   id="passcode"></input>
+            <button type="button" class="btn rsp-btn" id="rock">グー</button>
+            <button type="button" class="btn rsp-btn" id="scissors">チョキ</button>
+            <button type="button" class="btn rsp-btn" id="paper">パー</button>
 
-                <br/>
-                <button type="button" class="btn enemy-btn" id="Bob">ボブ</button>
-                <button type="button" class="btn enemy-btn" id="Adolf">アドルフ</button>
-                <button type="button" class="btn enemy-btn" id="Clerk">クラーク</button>
-                <button type="button" class="btn enemy-btn" id="Dudley">ダドリー</button>
-                
-                <button type="button" class="btn" id="dataSave">戦績記録</button>
+            <br/>
+		        <div class="btn-group">
+              <button class="btn" id="enemyList">enemy</button>
+              <button class="btn dropdown-toggle" data-toggle="dropdown" id="enemyList-btn">
+              <span   class="caret"></span>
+              </button>
+              <ul class="dropdown-menu">
+                <li class="enemy-btn" id="Bob">Bob</li>
+                <li class="enemy-btn" id="Adolf">Adolf</li>
+                <li class="enemy-btn" id="Clerk">Clerk</li>
+                <li class="enemy-btn" id="Dudley">Dudley</li>
+              </ul>
+		        </div>
+		        
+		      
+            <!--
+            <button type="button" class="btn enemy-btn" id="Bob">ボブ</button>
+            <button type="button" class="btn enemy-btn" id="Adolf">アドルフ</button>
+            <button type="button" class="btn enemy-btn" id="Clerk">クラーク</button>
+            <button type="button" class="btn enemy-btn" id="Dudley">ダドリー</button>
+            -->
+            <button type="button" class="btn" id="dataSave">戦績記録</button>
+          </div>
+          <hr />
+          <div class="row-fluid">
+            <div class="span6 text-center">
+              <p>あなた</p>
+              <img id="myrspimg" src="img/rock.png" />
             </div>
-            <hr />
-            <div class="row-fluid">
-                <div class="span6 text-center">
-                    <p>あなた</p>
-                    <img id="myrspimg" src="img/rock.png" />
-                </div>
-                <div class="span6 text-center">
-                    <p id="enemy-name">ボブ</p>
-                    
-                    <img id="enemyrspimg" src="img/scissors.png" />
-                </div>
+            <div class="span6 text-center">
+              <p id="enemy-name">ボブ</p>
+              
+              <img id="enemyrspimg" src="img/scissors.png" />
             </div>
-            <hr />
-            <div class="row-fluid">
-                <div class="fadeBox">
-                  <p id="result" class="text-center">Who will win?</p>
-                </div>
-                <br/>
-                <p class="text-center">Summary</p>
-                <p id="summary" class="text-center">0 win 0 lose 0 draw</p>
-                <p class="text-center">History</p>
-                <p class="text-center"></p>
-		<p id="history_label" class="text-center">あなた：あいて：結果<br/></p>
-                <p id="history" class="text-center"></p>
+          </div>
+          <hr />
+          <div class="row-fluid">
+            <div class="fadeBox">
+              <p id="result" class="text-center">Who will win?</p>
             </div>
+            <br/>
+            <p class="text-center">Summary</p>
+            <p id="summary" class="text-center">0 win 0 lose 0 draw</p>
+            <p class="text-center">History</p>
+            <p class="text-center"></p>
+		        <p id="history_label" class="text-center">あなた：あいて：結果<br/></p>
+            <p id="history" class="text-center"></p>
+          </div>
         </div>
         <div class="span7">
-            <!--assignmentDocs表示切替-->
-            <button type="button" class="btn" id="docsOnOff">close</button>
-            <div class="well sidebar-nav" id="assignmentDocs">
-                <ul class="nav nav-list">
-                    <li class="nav-header">じゃんけんゲーム</li>
-                    <li class="active"><a href="rsp_local.html">ローカル版</a></li>
-                    <ul>
-                        <li>step0: ボブとじゃんけん勝負ができます。</li>
-                        <li>step0: あなたはグー、チョキ、パーのいずれかのボタンを押すことで出す手を選択できます。</li>
-                        <li>step0: ボタンを押すとあなたが選択した手と同じ画像が表示されます。</li>
-                        <li>step0: ボタンを押すとボブがランダムに選択した手と同じ画像が表示されます。</li>
-                        <li>step0: あなたとボブの勝敗結果が画像の下に表示されます。</li>
-                        <li>step1: 勝敗結果をより分かりやすくしてください。例えばダイアログを表示するか。</li>
-                        <li>step1: あなたとボブの手を切り替えるときにエフェクトを掛かえてください。いくつかのパターンを試して一番気に入ったものにしてみましょう。</li>
-                        <li>step1: スタートボタンを追加し、ボタンが押されたら「じゃーんけーんしょっ」などの掛け声を表示しましょう。</li>
-                        <li>step1: このstep?のテキストの表示/非表示を切り替えるボタンを追加しましょう。</li>
-                        <li>step2: 勝敗結果の下に戦績が表示してください。戦績はブラウザを閉じるとリセットされます。</li>
-                        <li>step2: 戦績はサマリーと履歴から成り立っています。</li>
-                        <li>step2: 戦績サマリーはxx勝xx敗xx分けと表示してください。</li>
-                        <li>step2: 戦績履歴は1回ごとのあなたの手、ボブの手、勝敗を表示してください。</li>
-                        <li>step3: 対戦相手を選択できるようにしてください。</li>
-                        <li>step3: 対戦相手ごとに特徴があります。
-                            <ul>
-                                <li>ボブ：グー、チョキ、パーを平均的に出す。</li>
-                                <li>アドルフ：最初にパーを出すことが多い。</li>
-                                <li>クラーク：チョキを多めに出す。</li>
-                                <li>ダドリー：相手が同じ手を連続して出してくるとそれに合わせて勝てる手を出す。</li>
-                            </ul>
-                        </li>
-                        <li>step4: 対戦成績をlocalStorageに保存できるようにしてください。</li>
-                        <li>step4: localStorageに保存するボタンを押すと8桁のパスコードが表示してください。</li>
-                        <li>step4: パスコードを入力すると前回の続きから始めらるようにしてください。</li>
-                    </ul>
-                </ul>
-            </div>
+          <!--assignmentDocs表示切替-->
+          <button type="button" class="btn" id="docsOnOff">close</button>
+          <div class="well sidebar-nav" id="assignmentDocs">
+            <ul class="nav nav-list">
+              <li class="nav-header">じゃんけんゲーム</li>
+              <li class="active"><a href="rsp_local.html">ローカル版</a></li>
+              <ul>
+                <li>step0: ボブとじゃんけん勝負ができます。</li>
+                <li>step0: あなたはグー、チョキ、パーのいずれかのボタンを押すことで出す手を選択できます。</li>
+                <li>step0: ボタンを押すとあなたが選択した手と同じ画像が表示されます。</li>
+                <li>step0: ボタンを押すとボブがランダムに選択した手と同じ画像が表示されます。</li>
+                <li>step0: あなたとボブの勝敗結果が画像の下に表示されます。</li>
+                <li>step1: 勝敗結果をより分かりやすくしてください。例えばダイアログを表示するか。</li>
+                <li>step1: あなたとボブの手を切り替えるときにエフェクトを掛かえてください。いくつかのパターンを試して一番気に入ったものにしてみましょう。</li>
+                <li>step1: スタートボタンを追加し、ボタンが押されたら「じゃーんけーんしょっ」などの掛け声を表示しましょう。</li>
+                <li>step1: このstep?のテキストの表示/非表示を切り替えるボタンを追加しましょう。</li>
+                <li>step2: 勝敗結果の下に戦績が表示してください。戦績はブラウザを閉じるとリセットされます。</li>
+                <li>step2: 戦績はサマリーと履歴から成り立っています。</li>
+                <li>step2: 戦績サマリーはxx勝xx敗xx分けと表示してください。</li>
+                <li>step2: 戦績履歴は1回ごとのあなたの手、ボブの手、勝敗を表示してください。</li>
+                <li>step3: 対戦相手を選択できるようにしてください。</li>
+                <li>step3: 対戦相手ごとに特徴があります。
+                  <ul>
+                    <li>ボブ：グー、チョキ、パーを平均的に出す。</li>
+                    <li>アドルフ：最初にパーを出すことが多い。</li>
+                    <li>クラーク：チョキを多めに出す。</li>
+                    <li>ダドリー：相手が同じ手を連続して出してくるとそれに合わせて勝てる手を出す。</li>
+                  </ul>
+                </li>
+                <li>step4: 対戦成績をlocalStorageに保存できるようにしてください。</li>
+                <li>step4: localStorageに保存するボタンを押すと8桁のパスコードが表示してください。</li>
+                <li>step4: パスコードを入力すると前回の続きから始めらるようにしてください。</li>
+              </ul>
+            </ul>
+          </div>
         </div>
-        </div>
-        <hr />
-        <footer>
-            <p>&copy; VOYAGE GROUP, Inc. All Rights Reserved.</p>
-        </footer>
+      </div>
+      <hr />
+      <footer>
+        <p>&copy; VOYAGE GROUP, Inc. All Rights Reserved.</p>
+      </footer>
     </div><!-- /container -->
 
     <!-- Le javascript
-    ================================================== -->
+         ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="js/jquery-2.0.2.js"></script>
     <script src="js/bootstrap.js"></script>
     <script src="js/rsp_local.js"></script>
     <script src="js/jquery.vtoggle.js"></script>
-</body>
+  </body>
 </html>

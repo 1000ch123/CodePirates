@@ -1,5 +1,5 @@
 "use strict";//厳格モード．曖昧実装許されない．ちょっと早い．（らしい）
-// Time-stamp: <2013-08-09 00:29:03 masanote>
+// Time-stamp: <2013-08-09 01:08:44 masanote>
 
 $(function(){
     //constants
@@ -65,7 +65,10 @@ $(function(){
 	      $(".rsp-btn")  .toggle();
 	      $(".enemy-btn").toggle();
 	      $("#enemyList").toggle();
+        $("#enemyList-btn").toggle();
 	      $("#dataSave") .toggle();
+
+        $("#enemyList").text("Bob");
     }
 
     /*
@@ -120,8 +123,9 @@ $(function(){
 	      $(".start-btn").toggle();
 	      $(".rsp-btn").toggle();
 	      $(".enemy-btn").toggle();
-	      //$("#enemyList").toggle();
-	      $("#dataLoad").toggle();
+	      $("#enemyList").toggle();
+	      $("#enemyList-btn").toggle();
+        $("#dataLoad").toggle();
 	      $("#passcode").toggle();
 	      $("#dataSave").toggle();
     }
@@ -246,12 +250,19 @@ $(function(){
 	          "Clerk" :ENEMY_LIST.CLERK,
 	          "Dudley":ENEMY_LIST.DUDLEY
 	      };
-
+        
 	      //PG
 	      tmpEnemy = enemyNumList[enemyName];
 
 	      //UI
 	      updateEnemyName();
+        $("#enemyList").text(enemyName);
+    });
+
+    //testcode
+    $(".enemy-btn-").click(function(){
+        var enemyName = $(this).attr("id");
+        $("#enemyList").text(enemyName);
     });
     
     /*
