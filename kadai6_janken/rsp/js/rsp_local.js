@@ -1,8 +1,8 @@
 "use strict";//厳格モード．曖昧実装許されない．ちょっと早い．（らしい）
-// Time-stamp: <2013-08-08 16:55:04 masanote>
+// Time-stamp: <2013-08-08 17:30:36 masanote>
 
 $(function(){
-    //定数
+    //constants
     var HAND_TYPE = {
 	ROCK : 0,
 	SCISSORS : 1,
@@ -30,7 +30,12 @@ $(function(){
 	2:"クラーク",
 	3:"ダドリー"
     };
-
+    var IMG_PATH = {
+	0:"img/rock.png",
+	1:"img/scissors.png",
+	2:"img/paper.png"
+    };//HAND_TYPEで設定したいんだけどなぁ
+    
     //effect用変数
     var fadeTimeHand = 300;
     var delayTime_hand = 0;
@@ -50,31 +55,47 @@ $(function(){
     //Dudley
     var dudleyMemoryPre = -1;
     var dudleyMemoryPrePre = -1;
-    
-    
 
+    /*
+     step0:初期化
+     */
+    initialize();
     
     function initialize(){
-	$(".rsp-btn").toggle(); //じゃんけんの手を非表示にする
+	$(".rsp-btn").toggle();
 	$(".enemy-btn").toggle();
 	$("#enemyList").toggle();
 	$("#dataSave").toggle();
     }
     
-    //手のボタンが押されたら
+    /*
+     基本じゃんけん機能
+ 　    出す手を押したとき発動
+     */
     $(".rsp-btn").click(function(){
-	//勝敗判定judge(userHand,enemyHand)
-	var result = judge(
-	    myHand($(this).attr("id")),
-	    enemyHand(tmpEnemy)
-	);
+	// model更新
+	var uHand = myHand($(this).attr("id"));
+	var eHand = enemyHand(tmpEnemy);
+	var result = judge(uHand,eHand);
+	
+	// view更新
+	updateHandImg("#myrspimg", uHand);
+	updateHandImg("#enemyrspimg", eHand);
+
 	//結果表示
 	showResult(result);
     });
     
-    //UserHand.handTypeはhtmlでidに指定した"rock","scissors","paper".
+
+    /*
+     ユーザの手選択
+     */
+
+  
+    
     function myHand(handType) {
 	/*
+	 UserHand.handTypeはhtmlでidに指定した"rock","scissors","paper".
 	 (UI)
 	 引数評価の後，自分の手の画像（my rsp img）を更新する．
 	 手を変えるエフェクトならここ？
@@ -83,21 +104,22 @@ $(function(){
 	 */
 	var hand;
 	var imgPath;
-	if (handType == "rock") {
-	    imgPath = "img/rock.png";
+	if (handType == "rock") {  
 	    hand = HAND_TYPE.ROCK;
 	} else if (handType == "scissors") {
-	    imgPath = "img/scissors.png";
 	    hand = HAND_TYPE.SCISSORS;
 	} else {
-	    imgPath = "img/paper.png";
 	    hand = HAND_TYPE.PAPER;
 	}
-	$("#myrspimg").fadeOut(fadeTimeHand*0).delay(delayTime_hand).attr("src", imgPath).fadeIn(fadeTimeHand);
-	
+	/*
+	imgPath = IMG_PATH[hand];
+	$("#myrspimg").fadeOut(fadeTimeHand*0).delay(delayTime_hand)
+	    .attr("src", imgPath).fadeIn(fadeTimeHand);
+	*/
+	//updateHandImg("#myrspimg" ,hand);
 	return hand;
     }
-    
+
     /*
      EnemyHand
      */
@@ -105,6 +127,7 @@ $(function(){
     //Enemy1.bob.完全ランダム
     function bobHand() {
 	var hand = Math.floor(Math.random() * 3);
+	/*
 	var imgPath;
 	if (hand === HAND_TYPE.ROCK) {
 	    imgPath = "img/rock.png";
@@ -113,7 +136,9 @@ $(function(){
 	} else {
 	    imgPath = "img/paper.png";
 	}
-	$("#enemyrspimg").fadeOut(fadeTimeHand*0).delay(delayTime_hand).attr("src", imgPath).fadeIn(fadeTimeHand);
+	$("#enemyrspimg").fadeOut(fadeTimeHand*0).delay(delayTime_hand)
+	 .attr("src", imgPath).fadeIn(fadeTimeHand);
+	 */
 	return hand;
     }
     
@@ -123,10 +148,12 @@ $(function(){
 	var imgPath;
 	if(adolfFirst){
 	    hand = Math.floor(Math.random() * 5);
+	    if (hand >= 3) hand = HAND_TYPE.PAPER; 
 	    adolfFirst = false;
 	}else{
 	    hand = Math.floor(Math.random() * 3);
 	}
+	/*
 	if (hand === HAND_TYPE.ROCK) {
 	    imgPath = "img/rock.png";
 	} else if (hand === HAND_TYPE.SCISSORS) {
@@ -136,6 +163,7 @@ $(function(){
 	    hand = HAND_TYPE.PAPER;
 	}
 	$("#enemyrspimg").fadeOut(fadeTimeHand*0).delay(delayTime_hand).attr("src", imgPath).fadeIn(fadeTimeHand);
+	 */
 	return hand;
     }
     
@@ -144,6 +172,8 @@ $(function(){
 	var hand;
 	var imgPath;
 	hand = Math.floor(Math.random() * 5);
+	if (hand >= 3) hand = HAND_TYPE.SCISSORS; 
+	/*
 	if (hand === HAND_TYPE.ROCK) {
 	    imgPath = "img/rock.png";
 	} else if (hand === HAND_TYPE.SCISSORS) {
@@ -154,7 +184,8 @@ $(function(){
 	    imgPath = "img/scissors.png";
 	    hand = HAND_TYPE.SCISSORS;
 	}
-	$("#enemyrspimg").fadeOut(fadeTimeHand*0).delay(delayTime_hand).attr("src", imgPath).fadeIn(fadeTimeHand);
+	 $("#enemyrspimg").fadeOut(fadeTimeHand*0).delay(delayTime_hand).attr("src", imgPath).fadeIn(fadeTimeHand);
+	 */
 	return hand;
     }
     
@@ -167,6 +198,7 @@ $(function(){
 	} else {
 	    hand = Math.floor(Math.random() * 3);
 	}
+	/*
 	if (hand === HAND_TYPE.ROCK) {
 	    imgPath = "img/rock.png";
 	} else if (hand === HAND_TYPE.SCISSORS) {
@@ -178,6 +210,7 @@ $(function(){
 	    hand = HAND_TYPE_SCISSORS;
 	}
 	$("#enemyrspimg").fadeOut(fadeTimeHand*0).delay(delayTime_hand).attr("src", imgPath).fadeIn(fadeTimeHand);
+	 */
 	return hand;
     }
     /*
@@ -203,7 +236,15 @@ $(function(){
             ehand = bobHand();
             break;
 	}
+
 	return ehand;
+    }
+
+    // 描画用関数. method chainを上手く使おう
+    function updateHandImg(tag, hand){
+	var imgPath = IMG_PATH[hand];
+	$(tag).fadeOut(fadeTimeHand*0).delay(delayTime_hand)
+	    .attr("src", imgPath).fadeIn(fadeTimeHand);
     }
     
     /*
